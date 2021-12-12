@@ -1,0 +1,8 @@
+name = "BrickLabel"
+uuid = "44d26a8e-588f-4220-b7ec-6e74f322db2c"
+authors = ["Robert Smallshire <rob@sixty-north.com>"]
+version = "0.1.0"
+
+[deps]
+Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Stuffing = "4175e07e-e5b7-423e-8796-3ea7f6d48281"
