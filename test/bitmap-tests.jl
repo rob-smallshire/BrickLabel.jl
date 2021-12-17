@@ -32,5 +32,18 @@ end
 @testset "crop_limits d" begin
     color_image = load("images/4285b.png")
     b = boundary(color_image)
-    @test crop_limits(b) == (-11:156, -22:215)
+    @test crop_limits(b) == (1:168, 1:238)
+end
+
+@testset "pack_boundaries" begin
+    color_images = [
+        load("images/3004.png"),
+        load("images/3622.png"),
+        load("images/3010.png"),
+        load("images/3009.png"),
+        load("images/3008.png"),
+    ]
+    boundaries = map(boundary, color_images)
+    positions = pack_boundaries(boundaries, 500, 500)
+    @test length(positions) == 5
 end

@@ -1,4 +1,5 @@
 [deps]
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
+Stuffing = "4175e07e-e5b7-423e-8796-3ea7f6d48281"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TestSetExtensions = "98d24dd4-01ad-11ea-1b02-c9a08f80db04"

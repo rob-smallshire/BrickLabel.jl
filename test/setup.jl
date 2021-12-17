@@ -1,3 +1,3 @@
-using Test, Images
+using Test, Images, Stuffing
 
 using BrickLabel
