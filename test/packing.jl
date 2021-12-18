@@ -56,3 +56,18 @@ packing(mask, objs, maskbackground=true)
 qts = qtrees(objs, mask=mask, maskbackground=true);
 packing!(qts)
 getpositions(qts)
+
+result = fill(RGB(1, 1, 0), m, n)
+print(positions)
+for ((p, q), masked_image) in zip(positions, images_and_masks)
+    im = masked_image.image
+    mk = masked_image.mask
+
+    for ci in CartesianIndices(size(im))
+        i, j = Tuple(ci)
+        if mk[i, j]
+            result[q + i - 1, p + j - 1] = im[i, j]
+        end
+    end
+end
+result

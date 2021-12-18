@@ -10,8 +10,12 @@ function bitmap(image::AbstractArray, threshold=1.0)
     Gray.(image) .<  0.99
 end
 
-function pad(image::AbstractArray, border)
+function pad_zero(image::AbstractArray, border)
     padarray(image, Fill(zero(eltype(image)),(border,border),(border,border)))
+end
+
+function pad_one(image::AbstractArray, border)
+    padarray(image, Fill(one(eltype(image)),(border,border),(border,border)))
 end
 
 function distance_contour(image::AbstractArray, distance)
@@ -87,13 +91,13 @@ Return a image and mask with a margin of the same size.
 """
 function margin_mask(image::AbstractArray, margin=24, threshold=0.99)
     bit_image = bitmap(image, threshold)
-    padded_bit_image = pad(bit_image, margin)
+    padded_bit_image = pad_zero(bit_image, margin)
     object_mask = remove_holes(padded_bit_image)
     margin_mask = distance_contour(object_mask, margin)
     margin_limits = tight_crop_limits(margin_mask)
     cropped_mask = crop_to_limits(margin_mask, margin_limits)
 
-    padded_image = pad(image, margin)
+    padded_image = pad_one(image, margin)
     masked_image = object_mask .* padded_image
     cropped_image = crop_to_limits(masked_image, margin_limits)
     
