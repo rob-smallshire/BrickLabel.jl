@@ -76,8 +76,14 @@ end
 
 struct MaskedImage
     image::AbstractArray
-    mask::BitMatrix
-    MaskedImage(image, mask) = size(image) != size(mask) ? error("image and mask not equal sizes") : new(image, mask)
+    object_mask::BitMatrix
+    margin_mask::BitMatrix
+    MaskedImage(image, object_mask, margin_mask) = (size(image) == size(object_mask) == size(margin_mask)) ? new(image, object_mask, margin_mask) : error("image and masks not equal sizes")
+    #     # if !(size(image) == size(object_mask) == size(margin_mask))
+    #     #     error("image and masks not equal sizes")
+    #     # end
+    #     new(image, object_mask, margin_mask)
+    # end
 end
 
 function Base.size(image::MaskedImage)
@@ -95,13 +101,18 @@ function margin_mask(image::AbstractArray, margin=24, threshold=0.99)
     object_mask = remove_holes(padded_bit_image)
     margin_mask = distance_contour(object_mask, margin)
     margin_limits = tight_crop_limits(margin_mask)
-    cropped_mask = crop_to_limits(margin_mask, margin_limits)
+    cropped_margin_mask = crop_to_limits(margin_mask, margin_limits)
+    cropped_object_mask = crop_to_limits(object_mask, margin_limits)
 
     padded_image = pad_one(image, margin)
     masked_image = object_mask .* padded_image
     cropped_image = crop_to_limits(masked_image, margin_limits)
-    
-    return MaskedImage(parent(cropped_image), parent(cropped_mask))
+
+    return MaskedImage(
+        parent(cropped_image),
+        parent(cropped_object_mask),
+        parent(cropped_margin_mask),
+    )
 end
 
 """
