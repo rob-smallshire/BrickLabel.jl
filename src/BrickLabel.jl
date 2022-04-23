@@ -79,11 +79,6 @@ struct MaskedImage
     object_mask::BitMatrix
     margin_mask::BitMatrix
     MaskedImage(image, object_mask, margin_mask) = (size(image) == size(object_mask) == size(margin_mask)) ? new(image, object_mask, margin_mask) : error("image and masks not equal sizes")
-    #     # if !(size(image) == size(object_mask) == size(margin_mask))
-    #     #     error("image and masks not equal sizes")
-    #     # end
-    #     new(image, object_mask, margin_mask)
-    # end
 end
 
 function Base.size(image::MaskedImage)

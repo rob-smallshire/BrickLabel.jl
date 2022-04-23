@@ -24,6 +24,16 @@ masked_images = [
     margin_mask(load("test/images/6111.png")),
     margin_mask(load("test/images/6112.png")),
     margin_mask(load("test/images/4285b.png")),
+    margin_mask(load("test/images/3622.png")),
+    margin_mask(load("test/images/3010.png")),
+    margin_mask(load("test/images/3009.png")),
+    margin_mask(load("test/images/3008.png")),
+    margin_mask(load("test/images/6111.png")),
+    margin_mask(load("test/images/6112.png")),
+    margin_mask(load("test/images/3832.png")),
+    margin_mask(load("test/images/3958.png")),
+    margin_mask(load("test/images/3649.png")),
+    margin_mask(load("test/images/99773.png")),
 ]
 sort!(masked_images, by=prod ∘ size, rev=true) # better in descending order of size
 
@@ -34,32 +44,9 @@ qts = qtrees(margin_masks, mask=mask, maskbackground=true)
 place!(qts)
 fit!(qts)
 
-# # draw
-# println("visualization:")
-# oqt = overlap(qts)
-# println(repr("text/plain", oqt))
-# # or
-# println(QTrees.charimage(oqt, maxlen=97))
-# # or
-# using Colors
-# imageof(qt) = Gray.(QTrees.decode.(qt[1]))
-# imageof(oqt)
-
-# # get layout
-# println("layout:")
-# positions = getpositions(qts)
-# println(positions)
-
-# println("or get layout directly")
-# packing(mask, objs, maskbackground=true)
-# # or
-# qts = qtrees(objs, mask=mask, maskbackground=true);
-# packing!(qts)
-# getpositions(qts)
-
 positions = getpositions(qts)
 
-result = fill(RGB(1, 1, 0), m, n)
+result = fill(RGB(1, 1, 1), m, n)
 print(positions)
 for ((p, q), masked_image) in zip(positions, masked_images)
     im = masked_image.image
@@ -73,3 +60,12 @@ for ((p, q), masked_image) in zip(positions, masked_images)
     end
 end
 result
+
+
+# TODO: Resizing individual images using imresize
+
+# TODO: Perform a bisection search to find the largest scale at which the images
+#       successfully fit
+
+# TODO: Fetch images from URLs
+
